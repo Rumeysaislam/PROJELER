@@ -1,8 +1,19 @@
 # Titanic Veri Seti icin; Uçtan Uca Feature Engineering & Data Preprocessing
 
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+
+def load():
+    data = pd.read_csv("datasets/titanic.csv")
+    return data
+
+
 df = load()         # Titanic veri setini cektik.
 df.shape            # 891 tane gozlem birimi ve 12 tane degiskenden olusmaktadir.
 df.head()
+
 
 # Butun degiskenlerin isimlerini tek bir formata (hepsi buyuk harf) getirirsek;
 df.columns = [col.upper() for col in df.columns]    # df'in sutunlarinda gez, yakaladigin ismi buyult.
@@ -23,7 +34,9 @@ df["NEW_NAME_COUNT"] = df["NAME"].str.len()
 df["NEW_NAME_WORD_COUNT"] = df["NAME"].apply(lambda x: len(str(x).split(" ")))
 
 # name dr; İsminde "Dr" olanlar;
-df["NEW_NAME_DR"] = df["NAME"].apply(lambda x: len([x for x in x.split() if x.startswith("Dr")]))
+df["NEW_NAME_DR"] = df["NAME"].apply(lambda x: len([x for x in x.split() if x.startswith("Dr.")]))
+# "Dr." yaptik ismi "Dr" ile baslayanlari elemek icin. :)
+
 
 # name title; text sekli
 df['NEW_TITLE'] = df.NAME.str.extract(' ([A-Za-z]+)\.', expand=False)
@@ -44,12 +57,12 @@ df.loc[(df['AGE'] >= 18) & (df['AGE'] < 56), 'NEW_AGE_CAT'] = 'mature'
 df.loc[(df['AGE'] >= 56), 'NEW_AGE_CAT'] = 'senior'
 
 # sex x age; cinsiyet ve yasa gore olusturulan yeni degisken;
-df.loc[(df['Sex'] == 'male') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngmale'
-df.loc[(df['Sex'] == 'male') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturemale'
-df.loc[(df['Sex'] == 'male') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniormale'
-df.loc[(df['Sex'] == 'female') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngfemale'
-df.loc[(df['Sex'] == 'female') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturefemale'
-df.loc[(df['Sex'] == 'female') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniorfemale'
+df.loc[(df['SEX'] == 'male') & (df['AGE'] <= 21), 'NEW_SEX_CAT'] = 'youngmale'
+df.loc[(df['SEX'] == 'male') & (df['AGE'] > 21) & (df['AGE'] < 50), 'NEW_SEX_CAT'] = 'maturemale'
+df.loc[(df['SEX'] == 'male') & (df['AGE'] >= 50), 'NEW_SEX_CAT'] = 'seniormale'
+df.loc[(df['SEX'] == 'female') & (df['AGE'] <= 21), 'NEW_SEX_CAT'] = 'youngfemale'
+df.loc[(df['SEX'] == 'female') & (df['AGE'] > 21) & (df['AGE'] < 50), 'NEW_SEX_CAT'] = 'maturefemale'
+df.loc[(df['SEX'] == 'female') & (df['AGE'] >= 50), 'NEW_SEX_CAT'] = 'seniorfemale'
 
 df.head()
 df.shape                                           # Baslangicta 12 olan degisken sayimiz 22 oldu.
@@ -79,7 +92,7 @@ for col in num_cols:
     print(col, check_outlier(df, col))       # Aykiri degerlerden kurtulmusuz. :)
 
 
-    
+
 
 # 3. Missing Values (Eksik Degerler)
 
@@ -106,12 +119,12 @@ df.loc[(df['AGE'] < 18), 'NEW_AGE_CAT'] = 'young'
 df.loc[(df['AGE'] >= 18) & (df['AGE'] < 56), 'NEW_AGE_CAT'] = 'mature'
 df.loc[(df['AGE'] >= 56), 'NEW_AGE_CAT'] = 'senior'
 
-df.loc[(df['Sex'] == 'male') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngmale'
-df.loc[(df['Sex'] == 'male') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturemale'
-df.loc[(df['Sex'] == 'male') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniormale'
-df.loc[(df['Sex'] == 'female') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngfemale'
-df.loc[(df['Sex'] == 'female') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturefemale'
-df.loc[(df['Sex'] == 'female') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniorfemale'
+df.loc[(df['SEX'] == 'male') & (df['AGE'] <= 21), 'NEW_SEX_CAT'] = 'youngmale'
+df.loc[(df['SEX'] == 'male') & (df['AGE'] > 21) & (df['AGE'] < 50), 'NEW_SEX_CAT'] = 'maturemale'
+df.loc[(df['SEX'] == 'male') & (df['AGE'] >= 50), 'NEW_SEX_CAT'] = 'seniormale'
+df.loc[(df['SEX'] == 'female') & (df['AGE'] <= 21), 'NEW_SEX_CAT'] = 'youngfemale'
+df.loc[(df['SEX'] == 'female') & (df['AGE'] > 21) & (df['AGE'] < 50), 'NEW_SEX_CAT'] = 'maturefemale'
+df.loc[(df['SEX'] == 'female') & (df['AGE'] >= 50), 'NEW_SEX_CAT'] = 'seniorfemale'
 
 missing_values_table(df)                                # Sadece "embarked" kaldi.
 
@@ -249,7 +262,7 @@ accuracy_score(y_pred, y_test)
 
 
 
-# Yeni ürettigimiz degiskenler anlamli mi, anlamsiz mi?
+# Yeni urettigimiz degiskenler anlamli mi, anlamsiz mi?
 y = df["SURVIVED"]                                                                  # Bagimli degiskenim olan "SURVIVED"i sectim.
 X = df.drop(["PASSENGERID", "SURVIVED"], axis=1)                                    # Bagimsiz degiskenleri ("PASSENGERID", "SURVIVED" disindaki degiskenler) de sectim.
 
