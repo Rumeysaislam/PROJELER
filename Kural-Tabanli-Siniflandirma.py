@@ -1,16 +1,17 @@
-# PROJE: Kural Tabanli Siniflandirma ile Potansiyel Musteri Getirisi Hesaplama
-#############################################
+# Kural Tabanli Siniflandirma ile Potansiyel Musteri Getirisi Hesaplama
 
-# İs Problemi
-#############################################
+
+# Is Problemi;
+
 # Bir oyun sirketi musterilerinin bazi ozelliklerini kullanarak seviye tabanli (level based) yeni musteri tanimlari (persona)
 # olusturmak ve bu yeni musteri tanimlarina gore segmentler olusturup bu segmentlere gore yeni gelebilecek musterilerin sirkete
 # ortalama ne kadar kazandirabilecegini tahmin etmek istemektedir.
 
 # Orn.: Turkiye’den IOS kullanicisi olan 25 yasindaki bir erkek kullanicinin ortalama ne kadar kazandirabilecegi belirlenmek isteniyor.
 
-# Veri Seti Hikayesi
-#############################################
+
+# Veri Seti Hikayesi;
+
 # Persona.csv veri seti uluslararasi bir oyun sirketinin sattigi urunlerin fiyatlarini ve bu urunleri satin alan kullanicilarin bazi
 # demografik bilgilerini barindirmaktadir. Veri seti her satis isleminde olusan kayitlardan meydana gelmektedir. Bunun anlami tablo
 # tekillestirilmemistir. Diger bir ifade ile belirli demografik ozelliklere sahip bir kullanici birden fazla alisveris yapmis olabilir.
