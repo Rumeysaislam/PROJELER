@@ -62,6 +62,7 @@ num_cols = [col for col in num_cols if "PASSENGERID" not in col]
 
 
 
+
 # 2. Outliers (Aykiri Degerler)
 
 # "check_outlier" ile aykiri degerleri sorguluyoruz;
@@ -78,6 +79,7 @@ for col in num_cols:
     print(col, check_outlier(df, col))       # Aykiri degerlerden kurtulmusuz. :)
 
 
+    
 
 # 3. Missing Values (Eksik Degerler)
 
@@ -223,9 +225,11 @@ accuracy_score(y_pred, y_test)                                                  
 # %80 tahmin dogruluk oranina (accuracy_score) ulastik.
 
 
-#############################################
-# Hiç bir işlem yapılmadan model kursaydik elde edilecek skor ne olurdu?
-#############################################
+
+
+
+# Hic bir islem yapilmadan model kursaydik elde edilecek skor ne olurdu?
+
 
 dff = load()                                                                        # Veri setini bastan okudum.
 dff.dropna(inplace=True)                                                            # Eksik degerleri ucurdum. :)
@@ -245,7 +249,7 @@ accuracy_score(y_pred, y_test)
 
 
 
-# Yeni ürettiğimiz değişkenler ne alemde? Anlamli mi, anlamsiz mi?
+# Yeni ürettigimiz degiskenler anlamli mi, anlamsiz mi?
 y = df["SURVIVED"]                                                                  # Bagimli degiskenim olan "SURVIVED"i sectim.
 X = df.drop(["PASSENGERID", "SURVIVED"], axis=1)                                    # Bagimsiz degiskenleri ("PASSENGERID", "SURVIVED" disindaki degiskenler) de sectim.
 
