@@ -104,23 +104,30 @@ df.groupby(by=['SOURCE']).agg({"PRICE": "mean"})
 
 ## SORU 10: """Ulke-Kaynak kirilimina gore ortalama kazanclar"""
 source_groupped_prices = file.groupby(["SOURCE", "COUNTRY"])["PRICE"]
-print(f"\n\nUlke-Kaynak kırılımına gore ortalama kazanclar:\n{source_groupped_prices.mean()}")
+print(f"\n\nUlke-Kaynak kirilimina gore ortalama kazanclar:\n{source_groupped_prices.mean()}")
 
 # ya da;
 df.groupby(by=["COUNTRY", 'SOURCE']).agg({"PRICE": "mean"})
 
 
 
+
+
 ## GOREV 2: """COUNTRY, SOURCE, SEX, AGE kiriliminda ortalama kazanclar"""
 print("\n#################  GOREV 2  #################\n")
-print(f'COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazanclar:\n\n{file.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"])["PRICE"].mean()}')
+print(f'COUNTRY, SOURCE, SEX, AGE kiriliminda ortalama kazanclar:\n\n{file.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"])["PRICE"].mean()}')
 
 # ya da;
 df.groupby(["COUNTRY", 'SOURCE', "SEX", "AGE"]).agg({"PRICE": "mean"}).head()
 
 
 
+
+
 ## GOREV 3: """Ciktiyi PRICE’a gore siralama"""
+# Onceki sorudaki ciktiyi daha iyi gorebilmek icin sort_values metodunu azalan olacak sekilde PRICE'a uygulayiniz.
+# Ciktiyi agg_df olarak kaydediniz.
+
 print("\n#################  GOREV 3  #################\n")
 agg_df = file.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).mean().sort_values("PRICE", ascending=False)
 print(f"Ciktiyi PRICE’a gore siralama:\n{agg_df.head()}")
@@ -129,32 +136,57 @@ print(f"Ciktiyi PRICE’a gore siralama:\n{agg_df.head()}")
 agg_df = df.groupby(by=["COUNTRY", 'SOURCE', "SEX", "AGE"]).agg({"PRICE": "mean"}).sort_values("PRICE", ascending=False)
 agg_df.head()
 
+
+
+
+
 ## GOREV 4: """Indekste yer alan isimleri degisken ismine cevirme"""
+# Ucuncu sorunun ciktisinda yer alan PRICE disindaki tüm degiskenler index isimleridir.
+# Bu isimleri degisken isimlerine ceviriniz.
+
 print("\n#################  GOREV 4  #################\n")
 agg_df = agg_df.reset_index()
 print(f"Indekste yer alan isimleri degisken ismine cevirme:\n\n{agg_df.head()}")
+# Hepsi ayni seviyeye gelmis oluyor.
+agg_df["COUNTRY"] # secme islemim artik hata vermez. Cunku; artik index degil.
+
+
+
+
 
 
 ## GOREV 5: """Age degiskenini kategorik degiskene cevirme ve agg_df’e ekleme"""
 # Araliklari ikna edici olacagini dusundugunuz sekilde olusturunuz.
 # Ornegin: '0_18', '19_23', '24_30', '31_40', '41_70'
+
 print("\n#################  GOREV 5  #################\n")
 # AGE degiskeninin nerelerden bolunecegini belirtelim:
-age_bins = [0, 18, 23, 30, 40, 70]
+age_bins = [0, 18, 23, 30, 40, 70] # Bolunmelerin nereden olacagini ifade ediyoruz.
 
 # Bolunen noktalara karsilik isimlendirmelerin ne olacagini ifade edelim:
 age_categories = ['0_18', '19_23', '24_30', '31_40', '41_70']
 
 # ya da;
 age_categories = ['0_18', '19_23', '24_30', '31_40', '41_' + str(agg_df["AGE"].max())]
+# "agg_df["AGE"].max()" : agg_df icerindeki age'in max degerini secmis olduk. Sonrasinda str'ye cevirdik.
 
-# age'i bolelim:
+# age'i bolelim: "pd.cut"
 agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], age_bins, labels=age_categories)
 print(f"Age degiskenini kategorik degiskene cevirme:\n\n{agg_df.head()}")
+# Her yas degeri icin ayri bir segment belirlemektense yaslari belli bir araliga dahil etmis olduk (AGE -> AGE_CAT).
+
+
+
 
 
 
 ## GOREV 6: """Yeni seviye tabanli musterileri (persona) tanimlama ve veri setine ekleme"""
+# customers_level_based adinda bir degisken tanimlayiniz ve veri setine bu degiskeni ekleyiniz.
+# Dikkat!
+# list comp ile customers_level_based degerleri olusturulduktan sonra bu degerlerin tekillestirilmesi gerekmektedir.
+# Ornegin birden fazla su ifadeden olabilir: USA_ANDROID_MALE_0_18
+# Bunlari groupby'a alip price ortalamalarini almak gerekmektedir.
+
 print("\n#################  GOREV 6  #################\n")
 # YONTEM 2
 agg_df['customers_level_based'] = agg_df[['COUNTRY', 'SOURCE', 'SEX', 'age_cat']].agg(lambda x: '_'.join(x).upper(), axis=1)
@@ -171,45 +203,68 @@ agg_df.columns
 # Gozlem degerlerine nasıl erisiriz?
 for row in agg_df.values:
     print(row)
+# "agg_df.values" : calistirirsan sutundaki bilgileri liste seklinde verir.
 
-# Amacımıza bir adim daha yaklastik.
+
+# COUNTRY, SOURCE, SEX ve age_cat degiskenlerinin DEEGRLERİNİ yan yana koymak ve alt tireyle birlestirmek istiyoruz.
+# Bunu list comprehension ile yapabiliriz.
+# Yukaridaki dongudeki gozlem degerlerinin bize lazim olanlarini sececek sekilde islemi gercekletirelim:
+[row[0].upper() + "_" + row[1].upper() + "_" + row[2].upper() + "_" + row[5].upper() for row in agg_df.values]
+
+# Veri setine ekleyelim:
+agg_df["customers_level_based"] = [row[0].upper() + "_" + row[1].upper() + "_" + row[2].upper() + "_" + row[5].upper() for row in agg_df.values]
+agg_df.head()
+
+# Gereksiz degiskenleri cikaralim:
+agg_df = agg_df[["customers_level_based", "PRICE"]]
+agg_df.head()
+
+for i in agg_df["customers_level_based"].values:
+    print(i.split("_"))
+
+# Amacimiza bir adim daha yaklastik.
 # Burada ufak bir problem var. Bircok ayni segment olacak.
-# Ornegin USA_ANDROID_MALE_0_18 segmentinden bircok sayida olabilir.
-# Kontrol edelim:
+# örneğin USA_ANDROID_MALE_0_18 segmentinden bircok sayida olabilir.
+# kontrol edelim:
 agg_df["customers_level_based"].value_counts()
 
-# Bu sebeple segmentlere gore groupby yaptiktan sonra price ortalamalarini almali ve segmentleri tekillestirmeliyiz;
+# Bu sebeple segmentlere göre groupby yaptıktan sonra price ortalamalarini almali ve segmentleri tekillestirmeliyiz.
 agg_df = agg_df.groupby("customers_level_based").agg({"PRICE": "mean"})
 
-# customers_level_based index'te yer almaktadir. Bunu degiskene cevirelim;
+# customers_level_based index'te yer almaktadır. Bunu degiskene cevirelim.
 agg_df = agg_df.reset_index()
 agg_df.head()
 
-# kontrol edelim; her bir persona'nin 1 tane olmasini bekleriz;
+# Kontrol edelim; her bir persona'nin 1 tane olmasini bekleriz:
 agg_df["customers_level_based"].value_counts()
 agg_df.head()
 
-###################################################################################################
-# ya da;
-# customers_level_categories = ["COUNTRY", "SOURCE", "SEX", "AGE_CAT"]
-# agg_df["customers_level_based"] = agg_df[customers_level_categories[0]].str.upper()
-# for cat in customers_level_categories[1:]:
-#    agg_df["customers_level_based"] += "_" + agg_df[cat].str.upper()
 
-# persona_groupped_agg_price_mean = agg_df.groupby(["customers_level_based"])["PRICE"].mean()
-# print(f"Yeni seviye tabanli musterileri (persona) tanımlama:\n{persona_groupped_agg_price_mean.head()}")
-##################################################################################################
+
+
+
 
 ## GOREV 7: """Yeni musterileri (personalari) segmentlere ayirma"""
+# PRICE'a göre segmentlere ayiriniz,
+# segmentleri "SEGMENT" isimlendirmesi ile agg_df'e ekleyiniz,
+# segmentleri betimleyiniz.
+
 print("\n#################  GOREV 7  #################\n")
 agg_df['SEGMENT'] = pd.qcut(agg_df['PRICE'], 4, labels=["D", "C", "B", "A"])
 print(f"Yeni musterileri (personaları) segmentlere ayirma:\n{agg_df.groupby('SEGMENT').agg({'PRICE': ['mean', 'max', 'sum']})}")
 
 
 
+
+
+
 ## GOREV 8: """Yeni gelen musterileri siniflandirip, ne kadar gelir getirebileceklerini tahmin etme"""
 print("\n#################  GOREV 8  #################\n")
+# 33 yasinda ANDROID kullanan bir Turk kadini hangi segmente aittir ve ortalama ne kadar gelir kazandirmasi beklenir?
 TUR_ANDROID_FEMALE_31_40 = agg_df[agg_df['customers_level_based'] == 'TUR_ANDROID_FEMALE_31_40']
+
+# 35 yasinda IOS kullanan bir Fransiz kadini hangi segmente ve ortalama ne kadar gelir kazandirmasi beklenir?
 FRA_IOS_FEMALE_31_40 = agg_df[agg_df['customers_level_based'] == 'FRA_IOS_FEMALE_31_40']
+
 print("31-40 yas arası Turk kadini Android: \n", "Ortalama Kazanc: ", TUR_ANDROID_FEMALE_31_40["PRICE"].mean().__round__(2), "Segment: ", TUR_ANDROID_FEMALE_31_40["SEGMENT"].unique())
 print("31-40 yas arası Fransiz kadini iOS: \n", "Ortalama Kazanc: ", FRA_IOS_FEMALE_31_40["PRICE"].mean().__round__(2), "Segment: ", FRA_IOS_FEMALE_31_40["SEGMENT"].unique())
