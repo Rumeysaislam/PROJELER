@@ -18,7 +18,7 @@
 # tenure                    : Musterinin sirkette kaldigi ay sayisi
 # PhoneService              : Musterinin telefon hizmeti olup olmadigi (Evet, Hayir)
 # MultipleLines             : Musterinin birden fazla hatti olup olmadigi (Evet, Hayir, Telefon hizmeti yok)
-# InternetService           : Musterinin internet servis saglayıcısı (DSL, Fiber optik, Hayir)
+# InternetService           : Musterinin internet servis saglayicisi (DSL, Fiber optik, Hayir)
 # OnlineSecurity            : Musterinin cevrimici guvenliginin olup olmadigi (Evet, Hayir, internet hizmeti yok)
 # OnlineBackup              : Musterinin online yedeginin olup olmadigi (Evet, Hayir, internet hizmeti yok)
 # DeviceProtection          : Musterinin cihaz korumasina sahip olup olmadigi (Evet, Hayir, internet hizmeti yok)
