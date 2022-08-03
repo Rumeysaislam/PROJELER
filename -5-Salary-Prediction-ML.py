@@ -384,11 +384,10 @@ def plot_importance(model, features, num=len(X), save=False):
 plot_importance(rf_tuned, X_train)
 
 
-# Tuned edilmis model nesnesinin kaydedilmesi "pickle" ile
-
+# Tuned edilmis model nesnesinin kaydedilmesi "pickle" ile;
 import pickle
 pickle.dump(rf_tuned, open("rf_final_model.pkl", 'wb'))
 
 
-# Tuned edilmis model nesnesinin yuklenmesi
+# Tuned edilmis model nesnesinin yuklenmesi;
 df_prep = pickle.load(open('rf_final_model.pkl', 'rb'))
