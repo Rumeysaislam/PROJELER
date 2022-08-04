@@ -50,7 +50,7 @@ print("Benzersiz degerlerin sayisi: ", df["SOURCE"].unique().size)
 print("Benzersiz degerlerin sayisi: ", df["SOURCE"].nunique())                   # df["SOURCE"].unique().size = df["SOURCE"].nunique()
 print(f"Frekanslar:\n{df['SOURCE'].value_counts()}")
 
-# print("Frekanslar: \n", file["SOURCE"].value_counts())                         # "android" onunde bosluk oluyor; sevmedim.
+# print("Frekanslar: \n", file["SOURCE"].value_counts())                         # "android" onunde bosluk oluyor; sevmedim. :)
 # print("{}\n{}".format("Frekanslar", file["SOURCE"].value_counts()))   ; bu sekilde de yapilabilirdi.
 
 
