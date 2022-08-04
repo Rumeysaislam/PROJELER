@@ -67,7 +67,7 @@ df.loc[(df['SEX'] == 'female') & (df['AGE'] >= 50), 'NEW_SEX_CAT'] = 'seniorfema
 df.head()
 df.shape                                           # Baslangicta 12 olan degisken sayimiz 22 oldu.
 
-# Kategorik ve sayisal degiskenlerimi anlayabilmek icin "grab_col_names" fonksiyonumu cagiriyorum.
+# Kategorik ve sayisal degiskenlerimi anlayabilmek icin "grab_col_names" fonksiyonumu cagiriyoruz.
 cat_cols, num_cols, cat_but_car = grab_col_names(df)
 
 # "PassegerId" numaerik bir degisken degil, bunu disarida birakmak icin;
@@ -89,7 +89,7 @@ for col in num_cols:
 
 # Tekrar aykiri degerlere bakarsak;
 for col in num_cols:
-    print(col, check_outlier(df, col))       # Aykiri degerlerden kurtulmusuz. :)
+    print(col, check_outlier(df, col))       # Aykiri degerlerden kurtulduk. :)
 
 
 
@@ -189,7 +189,7 @@ num_cols = [col for col in num_cols if "PASSENGERID" not in col]                
 
 rare_analyser(df, "SURVIVED", cat_cols)                                         # cat_cols'lari rar_analyser'dan gecirdik.
 
-# Yeni olsturdugum degiskenlerde frekanslar ve oranlar birbirine yakin olsun istiyorum;
+# Yeni olsturdugum degiskenlerde frekanslar ve oranlar birbirine yakin olsun istiyoruz;
 # Orani dusuk; bilgi tasimayanlari analiz etmem gerekiyor.
 
 # Essiz 2 sinifi olup, siniflarindan herhangi biri 0,01'den az olan var mi?;
@@ -221,8 +221,8 @@ df.shape
 
 # 8. Model
 
-y = df["SURVIVED"]                                  # Bagimli degiskenim olan "SURVIVED"i sectim.
-X = df.drop(["PASSENGERID", "SURVIVED"], axis=1)    # Bagimsiz degiskenleri ("PASSENGERID", "SURVIVED" disindaki degiskenler) de sectim.
+y = df["SURVIVED"]                                  # Bagimli degiskenim olan "SURVIVED"i sectik.
+X = df.drop(["PASSENGERID", "SURVIVED"], axis=1)    # Bagimsiz degiskenleri ("PASSENGERID", "SURVIVED" disindaki degiskenler) de sectik.
 
 # Veri setini; train ve test olarak ikiye ayiriyorum;
 # train seti uzerinde model kuracagim, test seti ile kurdugum modeli test edecegim.
@@ -233,7 +233,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 rf_model = RandomForestClassifier(random_state=46).fit(X_train, y_train)            # Bir satirda modeli kurduk. X_train: bagimsiz degiskenler, y_train: bagimli degiskenler
 y_pred = rf_model.predict(X_test)                                                   # Modeli kurup tahmin etme adimi; test setindeki x bagimsiz degisken degerlerini modele sorduk.
-accuracy_score(y_pred, y_test)                                                      # Test setindeki y bagimli degiskeni ile modelin tahmin ettigi degerleri kiyasliyorum.
+accuracy_score(y_pred, y_test)                                                      # Test setindeki y bagimli degiskeni ile modelin tahmin ettigi degerleri kiyasliyoruz.
 
 # %80 tahmin dogruluk oranina (accuracy_score) ulastik.
 
@@ -244,11 +244,11 @@ accuracy_score(y_pred, y_test)                                                  
 # Hic bir islem yapilmadan model kursaydik elde edilecek skor ne olurdu?
 
 
-dff = load()                                                                        # Veri setini bastan okudum.
-dff.dropna(inplace=True)                                                            # Eksik degerleri ucurdum. :)
+dff = load()                                                                        # Veri setini bastan okuduk.
+dff.dropna(inplace=True)                                                            # Eksik degerleri drop ettik. :)
 dff = pd.get_dummies(dff, columns=["Sex", "Embarked"], drop_first=True)             # one-hot Encoding yaptim (Binary encoding'de gerceklesmis oldu.)
-y = dff["Survived"]                                                                 # Bagimli degiskenleri sectim.
-X = dff.drop(["PassengerId", "Survived", "Name", "Ticket", "Cabin"], axis=1)        # Bagimsiz degiskenleri sectim.
+y = dff["Survived"]                                                                 # Bagimli degiskenleri sectik.
+X = dff.drop(["PassengerId", "Survived", "Name", "Ticket", "Cabin"], axis=1)        # Bagimsiz degiskenleri sectik.
 # Modeli tekrar kuruyorum;
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=17)
 rf_model = RandomForestClassifier(random_state=46).fit(X_train, y_train)
@@ -256,7 +256,7 @@ y_pred = rf_model.predict(X_test)
 accuracy_score(y_pred, y_test)
 
 # accuracy_score = 0,70 (%70) cikti.
-# Eksik degerden kurtulmasaydik hata alirdik. (Bazi agaca dayali modellerde drop etmeseydik cok rahat calisirdi)
+# Eksik degerden kurtulmasaydik hata alirdik. (Bazi agaca dayali modellerde drop etmeseydik cok rahat calisirdi.)
 # "get_dummies" yapmasaydik hata alirdik; algoritma string ifadeyi float'a ceviremezdi.
 
 
@@ -264,18 +264,18 @@ accuracy_score(y_pred, y_test)
 
 # Yeni urettigimiz degiskenler anlamli mi, anlamsiz mi?
 y = df["SURVIVED"]                                                                  # Bagimli degiskenim olan "SURVIVED"i sectim.
-X = df.drop(["PASSENGERID", "SURVIVED"], axis=1)                                    # Bagimsiz degiskenleri ("PASSENGERID", "SURVIVED" disindaki degiskenler) de sectim.
+X = df.drop(["PASSENGERID", "SURVIVED"], axis=1)                                    # Bagimsiz degiskenleri ("PASSENGERID", "SURVIVED" disindaki degiskenler) de sectik.
 
 # Veri setini; train ve test olarak ikiye ayiriyorum;
 # train seti uzerinde model kuracagim, test seti ile kurdugum modeli test edecegim.
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=17)
 
-# Agac tabanli yontem kullaniyoruz; sklearn.ensemble icerisinden RandomForestClassifier nesnesini getiriyorum;
+# Agac tabanli yontem kullaniyoruz; sklearn.ensemble icerisinden RandomForestClassifier nesnesini getiriyoruz;
 from sklearn.ensemble import RandomForestClassifier
 
 rf_model = RandomForestClassifier(random_state=46).fit(X_train, y_train)            # Bir satirda modeli kurduk. X_train: bagimsiz degiskenler, y_train: bagimli degiskenler
 y_pred = rf_model.predict(X_test)                                                   # Modeli kurup tahmin etme adimi; test setindeki x bagimsiz degisken degerlerini modele sorduk.
-accuracy_score(y_pred, y_test)                                                      # Test setindeki y bagimli degiskeni ile modelin tahmin ettigi degerleri kiyasliyorum.
+accuracy_score(y_pred, y_test)                                                      # Test setindeki y bagimli degiskeni ile modelin tahmin ettigi degerleri kiyasliyoruz.
 
 
 def plot_importance(model, features, num=len(X), save=False):
