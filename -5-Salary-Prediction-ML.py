@@ -318,9 +318,9 @@ all_models = all_models(X, y, test_size=0.2, random_state=46, classification=Fal
 
 
 # RANDOM FORESTS MODEL TUNING
-# Tune etmek; Parametre optimizasyonu. Algoritma icindeki parametrelerin on tanımlı degerlerini uygun hale getiriyorum.
+# Tune etmek; Parametre optimizasyonu. Algoritma icindeki parametrelerin on tanımlı degerlerini uygun hale getiriyoruz.
 
-# Tuning icin hazirlanan parametreler. Tuning zaman aldigi icin cikan parametre degerlerini girdim.
+# Tuning icin hazirlanan parametreler. Tuning zaman aldigi icin cikan parametre degerlerini girdik.
 rf_params = {"max_depth": [4, 5, 7, 10],
              "max_features": [4, 5, 6, 8, 10, 12],
              "n_estimators": [80, 100, 150, 250, 400, 500],
@@ -334,7 +334,7 @@ rf_params = {"max_depth": [4, 5, 7, 10],
 # Cross validation yapiyoruz (cv). 10 parcaya bolup 9'u ile ogretip 1'i ile test yapiyor.
 
 
-# Tune etseydik asagidaki optimum degerli vermis olacakti. Bu parametreleri veriyorum.
+# Tune etseydik asagidaki optimum degerli vermis olacakti. Bu parametreleri veriyoruz.
 best_params = {'max_depth': 10,
                'max_features': 8,
                'min_samples_split': 10,
